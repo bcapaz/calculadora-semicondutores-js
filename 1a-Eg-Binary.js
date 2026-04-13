@@ -1,7 +1,5 @@
 const SemiconductorCalculators = {
     
-    // 1. Cálculo do Parâmetro de Rede em função da Temperatura
-    // Fórmula: a(T) = a(300K) * (1 + alpha * (T - 300) * 10^-6)
     calculateLatticeParameter: function(materialName, temperature) {
         const data = semiconductorData.binaries[materialName];
         if (!data) return null;
@@ -12,8 +10,6 @@ const SemiconductorCalculators = {
         return a300 * (1 + alpha * (temperature - 300) * 1e-6);
     },
 
-    // 2. Cálculo de Bandgap por Varshni (Sem Strain)
-    // Eg(T) = Eg(0) - (alpha * T^2) / (beta + T)
     calculateEgVarshni: function(materialName, temperature) {
         const data = semiconductorData.binaries[materialName];
         if (!data) return null;
@@ -31,7 +27,7 @@ const SemiconductorCalculators = {
         return Math.min(EgG, EgX, EgL);
     },
 
-    // 3. Cálculo Principal (O que você pediu)
+    // 3. Cálculo Principal
     getMaterialAnalysis: function(materialName, substrateName, temperature) {
         const mat = semiconductorData.binaries[materialName];
         const sub = semiconductorData.binaries[substrateName] || { "LatticePar (A)": semiconductorData.substrates[substrateName] };
