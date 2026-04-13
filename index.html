@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Semicondutores | LabSem</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="top-header">
+        <div class="logo-area">
+            <h1>LabSem <span>Calculator</span></h1>
+            <p>Modelagem de Parâmetros de Semicondutores</p>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <nav class="sidebar">
+            <h3>Calculadoras</h3>
+            <ul id="nav-tabs">
+                <li><button class="tab-btn active" data-target="calc-1a">1a. Bandgap Binário</button></li>
+                <li><button class="tab-btn" data-target="calc-1b">1b. Bandgap Ternário</button></li>
+                <li><button class="tab-btn" data-target="calc-2a">2a. Mobilidade Binário</button></li>
+                <li><button class="tab-btn" data-target="calc-2b">2b. Mobilidade Ternário</button></li>
+                <li><button class="tab-btn" data-target="calc-3a">3a. Elástica Binário</button></li>
+                <li><button class="tab-btn" data-target="calc-3b">3b. Elástica Ternário</button></li>
+                <li><button class="tab-btn" data-target="calc-4">4. Strain Models</button></li>
+            </ul>
+        </nav>
+
+        <main class="content-area">
+            
+            <section id="calc-1a" class="calc-section active">
+                <h2>1a. Bandgap Energy (Binário)</h2>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="mat-1a">Material Base:</label>
+                        <select id="mat-1a" class="mat-dropdown"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="sub-1a">Substrato:</label>
+                        <select id="sub-1a" class="sub-dropdown"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="temp-1a">Temperatura (K):</label>
+                        <input type="number" id="temp-1a" value="300" min="0">
+                    </div>
+                </div>
+                <button id="btn-calc-1a" class="calc-button">Calcular</button>
+
+                <div class="results-panel" id="res-1a" style="display: none;">
+                    <h3>Resultados</h3>
+                    <div class="results-grid" id="res-grid-1a">
+                        </div>
+                </div>
+            </section>
+
+            <section id="calc-1b" class="calc-section">
+                <h2>1b. Bandgap Energy (Ternário)</h2>
+                <p>Estrutura dos inputs do ternário entrarão aqui...</p>
+                </section>
+
+            </main>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/1a-Eg-Binary.js"></script>
+    <script src="js/1b-Eg-Ternary.js"></script>
+    <script src="js/2a-Mob-Binary.js"></script>
+    <script src="js/2b-Mob-Ternary.js"></script>
+    <script src="js/3a-Elastic-Binary.js"></script>
+    <script src="js/3b-Elastic-Ternary.js"></script>
+    <script src="js/4-StrainModels.js"></script>
+    
+    <script src="js/app.js"></script> 
+</body>
+</html>
