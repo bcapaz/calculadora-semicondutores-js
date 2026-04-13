@@ -1,13 +1,6 @@
-/**
- * Arquivo: app.js
- * Controlador principal da Interface (Frontend)
- */
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // ==========================================
-    // 1. LÓGICA DE NAVEGAÇÃO DAS ABAS
-    // ==========================================
     const tabBtns = document.querySelectorAll('.tab-btn');
     const calcSections = document.querySelectorAll('.calc-section');
 
