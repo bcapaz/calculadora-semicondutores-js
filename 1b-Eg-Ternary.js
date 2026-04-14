@@ -1,4 +1,5 @@
 
+
 // Dicionário para garantir que ligas invertidas achem o Bowing correto
 const bowingMap = {
     "GaAsInAs": "InGaAs", "InAsGaAs": "InGaAs",
@@ -27,7 +28,6 @@ function getValleyEgT(mat, valley, temperature) {
     const a = parseFloat(mat[`a${valley} (meV/K)`]);
     const b = parseFloat(mat[`b${valley} (K)`]);
     
-    // Se a ou b não existem no Data1 (ex: GaP), retorna o Eg sem shift térmico
     if (isNaN(a) || isNaN(b)) return Eg0;
     
     return Eg0 - (a * 1e-3 * Math.pow(temperature, 2)) / (b + temperature);
@@ -57,7 +57,7 @@ function calculateEgTernaryAnalysis(matAName, matBName, x, temperature, substrat
     const lat_sub_T = calculateLatticeParameter(substrateName, temperature);
     if (!lat_sub_T) return { error: "Substrato inválido." };
 
-    // 2. Mismatch (LMM) - SINAL IDÊNTICO AO EXCEL: (Liga / Substrato) - 1
+    // 2. Mismatch (LMM)
     const mismatchDecimal = (lat_alloy_T / lat_sub_T) - 1; 
     const mismatchPPM = mismatchDecimal * 1e6;
     const mismatchPercent = mismatchDecimal * 100;
@@ -99,21 +99,27 @@ function calculateEgTernaryAnalysis(matAName, matBName, x, temperature, substrat
     const egNoStrain = validGaps.length > 0 ? Math.min(...validGaps) : "Not enough data";
     const isDirect = (egNoStrain === egG_alloy);
 
-    // 6. Offsets (CBO e VBO)
     const sub = semiconductorData.binaries[substrateName] || {};
     const chi_sub = parseFloat(sub["Electron_Affinity (eV)"]);
-    const eg_sub = getValleyEgT(sub, 'G', temperature); 
+
+    const egG_sub = getValleyEgT(sub, 'G', temperature);
+    const egX_sub = getValleyEgT(sub, 'X', temperature);
+    const egL_sub = getValleyEgT(sub, 'L', temperature);
+    const validSubGaps = [egG_sub, egX_sub, egL_sub].filter(v => v !== null);
+    const eg_sub = validSubGaps.length > 0 ? Math.min(...validSubGaps) : null;
 
     let cbo = "N/A";
     let vbo = "N/A";
     if (chi_alloy != null && !isNaN(chi_sub)) {
         cbo = chi_sub - chi_alloy;
-        if (egNoStrain !== "Not enough data" && eg_sub != null) {
-            vbo = (chi_alloy + egNoStrain) - (chi_sub + eg_sub);
+        
+        // VBO = chi_alloy + egNoStrain - chi_sub - eg_sub
+        if (typeof egNoStrain === 'number' && eg_sub != null) {
+            vbo = (chi_alloy + Number(egNoStrain)) - (chi_sub + Number(eg_sub));
         }
     }
 
-    // 7. Strain Correction - TRADUÇÃO EXATA DA FÓRMULA DO EXCEL
+    // 7. Strain Correction
     let egWithStrain = "Not enough data";
     const c11A = parseFloat(matA["C11 (10^11 dyn/cm2)"]);
     const c11B = parseFloat(matB["C11 (10^11 dyn/cm2)"]);
@@ -135,7 +141,7 @@ function calculateEgTernaryAnalysis(matAName, matBName, x, temperature, substrat
         
         const dE = mismatchDecimal * ( -2 * a_pot * termo1 - b_pot * termo2 );
         
-        egWithStrain = egNoStrain + dE;
+        egWithStrain = Number(egNoStrain) + dE;
     }
 
     return {
