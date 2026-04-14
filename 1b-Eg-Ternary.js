@@ -1,5 +1,4 @@
 
-
 // Dicionário para garantir que ligas invertidas achem o Bowing correto
 const bowingMap = {
     "GaAsInAs": "InGaAs", "InAsGaAs": "InGaAs",
@@ -58,9 +57,8 @@ function calculateEgTernaryAnalysis(matAName, matBName, x, temperature, substrat
     const lat_sub_T = calculateLatticeParameter(substrateName, temperature);
     if (!lat_sub_T) return { error: "Substrato inválido." };
 
-    // 2. Mismatch (LMM) e Fator de Strain
-    const eps_para = (lat_sub_T - lat_alloy_T) / lat_alloy_T;
-    const mismatchDecimal = (lat_sub_T / lat_alloy_T) - 1; 
+    // 2. Mismatch (LMM) - SINAL IDÊNTICO AO EXCEL: (Liga / Substrato) - 1
+    const mismatchDecimal = (lat_alloy_T / lat_sub_T) - 1; 
     const mismatchPPM = mismatchDecimal * 1e6;
     const mismatchPercent = mismatchDecimal * 100;
 
@@ -115,7 +113,7 @@ function calculateEgTernaryAnalysis(matAName, matBName, x, temperature, substrat
         }
     }
 
-    // 7. Strain Correction (Pikus-Bir Física Correta)
+    // 7. Strain Correction - TRADUÇÃO EXATA DA FÓRMULA DO EXCEL
     let egWithStrain = "Not enough data";
     const c11A = parseFloat(matA["C11 (10^11 dyn/cm2)"]);
     const c11B = parseFloat(matB["C11 (10^11 dyn/cm2)"]);
@@ -126,16 +124,18 @@ function calculateEgTernaryAnalysis(matAName, matBName, x, temperature, substrat
     const b_potA = parseFloat(matA["b (eV)"]);
     const b_potB = parseFloat(matB["b (eV)"]);
 
-    if (!isNaN(c11A) && !isNaN(c11B) && !isNaN(c12A) && !isNaN(c12B) && !isNaN(a_potA) && !isNaN(a_potB) && typeof egNoStrain === 'number') {
+    if (!isNaN(c11A) && !isNaN(c11B) && !isNaN(c12A) && !isNaN(c12B) && !isNaN(a_potA) && !isNaN(a_potB) && !isNaN(b_potA) && !isNaN(b_potB) && typeof egNoStrain === 'number') {
         const c11 = xA * c11A + xB * c11B;
         const c12 = xA * c12A + xB * c12B;
         const a_pot = xA * a_potA + xB * a_potB;
         const b_pot = xA * b_potA + xB * b_potB;
 
-        const dE_hy = 2 * a_pot * (1 - c12 / c11) * eps_para;
-        const dE_sh = b_pot * (1 + 2 * (c12 / c11)) * eps_para;
+        const termo1 = 1 - (c12 / c11);
+        const termo2 = 1 + 2 * (c12 / c11);
         
-        egWithStrain = egNoStrain + dE_hy - Math.abs(dE_sh);
+        const dE = mismatchDecimal * ( -2 * a_pot * termo1 - b_pot * termo2 );
+        
+        egWithStrain = egNoStrain + dE;
     }
 
     return {
