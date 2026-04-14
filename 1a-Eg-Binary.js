@@ -4,13 +4,11 @@ function calculateLatticeParameter(materialName, temperature) {
     let a300 = null;
     let alpha = 0;
 
-    // Tenta achar na biblioteca rica de binários primeiro 
     const binData = semiconductorData.binaries[materialName];
     if (binData && binData["LatticePar (A)"]) {
         a300 = binData["LatticePar (A)"];
         alpha = binData["alpha_T (10^-6 K^-1)"] || 0;
     } else {
-        // Fallback simples caso seja um substrato genérico
         a300 = semiconductorData.substrates[materialName];
     }
 
@@ -48,6 +46,7 @@ function calculateEgBinaryAnalysis(materialName, substrateName, temperature) {
         return { error: "Parâmetros de rede insuficientes para este material ou substrato." };
     }
 
+    // LMM: (a_mat / a_sub) - 1
     const mismatchDecimal = (a_mat_T / a_sub_T) - 1;
     const mismatchPPM = mismatchDecimal * 1e6;
     const mismatchPercent = mismatchDecimal * 100;
@@ -57,20 +56,19 @@ function calculateEgBinaryAnalysis(materialName, substrateName, temperature) {
     let egWithStrain = "Not enough data";
     
     const a_pot = mat["a (eV)"];
-    const b_pot = mat["b (eV)"];
     const c11 = mat["C11 (10^11 dyn/cm2)"];
     const c12 = mat["C12 (10^11 dyn/cm2)"];
 
-    if (a_pot != null && b_pot != null && c11 != null && c12 != null && typeof egNoStrain === 'number') {
-
-        const eps_para = (a_sub_T - a_mat_T) / a_mat_T; 
+    if (a_pot != null && c11 != null && c12 != null && typeof egNoStrain === 'number') {
         
-        // Componentes do Strain Shift
-        const dE_hy = 2 * a_pot * (1 - c12 / c11) * eps_para;
-        const dE_sh = b_pot * (1 + 2 * (c12 / c11)) * eps_para;
-
-        // O gap diminui tanto sob tração quanto sob compressão para a banda de heavy-hole/light-hole
-        egWithStrain = egNoStrain + dE_hy - Math.abs(dE_sh); 
+        
+        const termo1 = 1 - (c12 / c11);
+        const termo2 = a_pot * (1 + 2 * (c12 / c11));
+        
+        // mismatchDecimal é exatamente o $C$14/100 da sua planilha
+        const dE = mismatchDecimal * (-2 * a_pot) * (termo1 + termo2);
+        
+        egWithStrain = egNoStrain + dE; 
     }
 
     return {
