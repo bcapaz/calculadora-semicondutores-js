@@ -36,11 +36,11 @@
                 <div class="input-grid">
                     <div class="input-group">
                         <label for="mat-1a">Material Base:</label>
-                        <select id="mat-1a" class="mat-dropdown"></select>
+                        <select id="mat-1a"></select>
                     </div>
                     <div class="input-group">
                         <label for="sub-1a">Substrato:</label>
-                        <select id="sub-1a" class="sub-dropdown"></select>
+                        <select id="sub-1a"></select>
                     </div>
                     <div class="input-group">
                         <label for="temp-1a">Temperatura (K):</label>
@@ -51,12 +51,201 @@
 
                 <div class="results-panel" id="res-1a" style="display: none;">
                     <h3>Resultados</h3>
-                    <div class="results-grid" id="res-grid-1a">
-                        </div>
+                    <div class="results-grid" id="res-grid-1a"></div>
                 </div>
             </section>
 
-            </main>
+            <section id="calc-1b" class="calc-section">
+                <h2>1b. Bandgap Energy (Ternário A<sub>1-x</sub>B<sub>x</sub>)</h2>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="matA-1b">Material A (1-x):</label>
+                        <select id="matA-1b"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="matB-1b">Material B (x):</label>
+                        <select id="matB-1b"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="x-1b">Fração x (0 a 1):</label>
+                        <input type="number" id="x-1b" value="0.5" step="0.01" min="0" max="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="sub-1b">Substrato:</label>
+                        <select id="sub-1b"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="temp-1b">Temperatura (K):</label>
+                        <input type="number" id="temp-1b" value="300" min="0">
+                    </div>
+                </div>
+                <button id="btn-calc-1b" class="calc-button">Calcular Bandgap</button>
+
+                <div class="results-panel" id="res-1b" style="display: none;">
+                    <h3>Resultados</h3>
+                    <div class="results-grid" id="res-grid-1b"></div>
+                </div>
+            </section>
+
+            <section id="calc-2a" class="calc-section">
+                <h2>2a. Mobilidade (Binário)</h2>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="mat-2a">Material Base:</label>
+                        <select id="mat-2a"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="temp-2a">Temperatura (K):</label>
+                        <input type="number" id="temp-2a" value="300" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="dop-2a">Doping Level (cm⁻³):</label>
+                        <input type="number" id="dop-2a" value="1e18">
+                    </div>
+                </div>
+                <button id="btn-calc-2a" class="calc-button">Calcular Mobilidade</button>
+
+                <div class="results-panel" id="res-2a" style="display: none;">
+                    <h3>Resultados</h3>
+                    <div class="results-grid" id="res-grid-2a"></div>
+                </div>
+            </section>
+
+            <section id="calc-2b" class="calc-section">
+                <h2>2b. Mobilidade (Ternário A<sub>1-x</sub>B<sub>x</sub>)</h2>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="matA-2b">Material A (1-x):</label>
+                        <select id="matA-2b"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="matB-2b">Material B (x):</label>
+                        <select id="matB-2b"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="x-2b">Fração x (0 a 1):</label>
+                        <input type="number" id="x-2b" value="0.5" step="0.01" min="0" max="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="temp-2b">Temperatura (K):</label>
+                        <input type="number" id="temp-2b" value="300" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="dop-2b">Doping Level (cm⁻³):</label>
+                        <input type="number" id="dop-2b" value="1e18">
+                    </div>
+                </div>
+                <button id="btn-calc-2b" class="calc-button">Calcular Mobilidade</button>
+
+                <div class="results-panel" id="res-2b" style="display: none;">
+                    <h3>Resultados</h3>
+                    <div class="results-grid" id="res-grid-2b"></div>
+                </div>
+            </section>
+
+            <section id="calc-3a" class="calc-section">
+                <h2>3a. Constantes Elásticas (Binário)</h2>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="mat-3a">Material Base:</label>
+                        <select id="mat-3a"></select>
+                    </div>
+                </div>
+                <button id="btn-calc-3a" class="calc-button">Calcular Constantes</button>
+
+                <div class="results-panel" id="res-3a" style="display: none;">
+                    <h3>Resultados</h3>
+                    <div class="results-grid" id="res-grid-3a"></div>
+                </div>
+            </section>
+
+            <section id="calc-3b" class="calc-section">
+                <h2>3b. Constantes Elásticas (Ternário A<sub>1-x</sub>B<sub>x</sub>)</h2>
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="matA-3b">Material A (1-x):</label>
+                        <select id="matA-3b"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="matB-3b">Material B (x):</label>
+                        <select id="matB-3b"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="x-3b">Fração x (0 a 1):</label>
+                        <input type="number" id="x-3b" value="0.5" step="0.01" min="0" max="1">
+                    </div>
+                </div>
+                <button id="btn-calc-3b" class="calc-button">Calcular Constantes</button>
+
+                <div class="results-panel" id="res-3b" style="display: none;">
+                    <h3>Resultados</h3>
+                    <div class="results-grid" id="res-grid-3b"></div>
+                </div>
+            </section>
+
+            <section id="calc-4" class="calc-section">
+                <h2>4. Strain Models (Multi-camadas)</h2>
+                
+                <h4 style="margin-bottom: 10px; color: #555;">Camada / Alloy 1</h4>
+                <div class="input-grid" style="margin-bottom: 20px; border-left: 3px solid #0055A4; padding-left: 15px;">
+                    <div class="input-group">
+                        <label for="matA1-4">Material A (1-x):</label>
+                        <select id="matA1-4"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="matB1-4">Material B (x):</label>
+                        <select id="matB1-4"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="x1-4">Fração x:</label>
+                        <input type="number" id="x1-4" value="0.05" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="t1-4">Espessura (nm):</label>
+                        <input type="number" id="t1-4" value="9">
+                    </div>
+                </div>
+
+                <h4 style="margin-bottom: 10px; color: #555;">Camada / Alloy 2</h4>
+                <div class="input-grid" style="margin-bottom: 20px; border-left: 3px solid #0055A4; padding-left: 15px;">
+                    <div class="input-group">
+                        <label for="matA2-4">Material A (1-x):</label>
+                        <select id="matA2-4"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="matB2-4">Material B (x):</label>
+                        <select id="matB2-4"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="x2-4">Fração x:</label>
+                        <input type="number" id="x2-4" value="0.44" step="0.01">
+                    </div>
+                    <div class="input-group">
+                        <label for="t2-4">Espessura (nm):</label>
+                        <input type="number" id="t2-4" value="10">
+                    </div>
+                </div>
+
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="sub-4">Substrato:</label>
+                        <select id="sub-4"></select>
+                    </div>
+                    <div class="input-group">
+                        <label for="temp-4">Temperatura (K):</label>
+                        <input type="number" id="temp-4" value="300" min="0">
+                    </div>
+                </div>
+
+                <button id="btn-calc-4" class="calc-button">Calcular Strain</button>
+
+                <div class="results-panel" id="res-4" style="display: none;">
+                    <h3>Resultados</h3>
+                    <div class="results-grid" id="res-grid-4"></div>
+                </div>
+            </section>
+
+        </main>
     </div>
 
     <script src="data.js"></script>
